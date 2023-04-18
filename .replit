@@ -1,4 +1,4 @@
-run = "deno run --lock=lock.json --lock-write --allow-all .deno/gen/file/home/runner/Deno/index.ts.meta"
+run = "deno run --lock=lock.json --lock-write --allow-all index.ts"
 
 hidden = [".deno"]
 
@@ -17,4 +17,4 @@ DENO_DIR = "/home/runner/${REPL_SLUG}/.deno"
 channel = "stable-22_11"
 
 [deployment]
-run = ["sh", "-c", "deno run --lock=lock.json --lock-write --allow-all .deno/gen/file/home/runner/Deno/index.ts.meta"]
+run = ["sh", "-c", "deno run --lock=lock.json --lock-write --allow-all index.ts"]
