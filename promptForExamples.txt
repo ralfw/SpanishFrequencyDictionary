@@ -1,0 +1,10 @@
+For the following list of words, find simple example sentences in the present tense. Also translate the example sentences to English.
+
+{WORDS}
+
+Return the result as a list with each word and its example sentence and translated example on the same line.
+Separate the values with a TAB character.
+
+Do not add a header to the list.
+
+Get the list with the examples sentences and their translations:

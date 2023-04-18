@@ -1,0 +1,10 @@
+For the following list of words, find the grammatical plural form for each word:
+
+{WORDS}
+
+Return the result as a list with each word and its plural form on a text line of their own.
+In each line separate the word and its plural with a semicolon character.
+
+Do not add a header to the list.
+
+Get the list with the words and their grammatical plural forms:

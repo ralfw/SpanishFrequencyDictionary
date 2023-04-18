@@ -1,0 +1,10 @@
+For the following list of verbs find the present tense conjugation. For all grammatical persons separate the conjugated forms with commas. Do not include personal pronouns.
+
+{WORDS}
+
+Return the result as a list with each verb and its conjugationed forms on the same line.
+Separate the verb and the conjugated forms with a TAB character.
+
+Do not add a header to the list.
+
+Get the list with the present tense conjugations:
