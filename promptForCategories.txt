@@ -1,11 +1,14 @@
-Transform the words in the following list:
+Given a comma-separated list of words, transform each word into its grammactical category and output the result as a list of lines, where each line contains the 0-based index of the word followed by its grammatical category. 
 
-{WORDS}
+Here is an example:
 
-Transform each word by finding its grammatical category.
+List of words: gato,beber,sobre
 
-Deliver the transformation as a list with each entry on its own line.
-Each entry consists of two columns: the word from the list (small letters) and the grammatical category in English.
-Use $ as a column separator.
+Transformed list:
+0:noun
+1:verb
+2:preposition
 
-Your list:
+Each entry consists of the 0-based index followed by a colon and the grammatical category.
+
+Now do the same with this list of words: {WORDS}

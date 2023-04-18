@@ -46,69 +46,75 @@ async function runPrompt(promptFilename:string, words:string[], delimiter:string
   
   const completion = await askAsync(prompt, 0.25);
   console.log(completion)
-  const result = completion.split("\n").map(x => x.split(delimiter));
-  
+  const result = completion.split("\n").map(x => {
+    const indexedResult = x.split(":")
+    const result = indexedResult[1].split("$")
+    return [indexedResult[0]].concat(result);
+  });
+
+  if (words.length != result.length) {
+    throw new Error(`*** ${words.length} expected, but ${result.length} results received!\n${prompt}\n---\n${result}\n`);
+  }
   return result;
 }
 
 
-async function addCategories(entries:FreqDictEntry) {
+async function addCategories(entries:FreqDictEntry[]) {
   const words = entries.map(x => x.ES);
   console.log(`-- add categories for ${words.length} words`)
   
   const cols = await runPrompt("promptForCategories.txt", words);
 
-  const dict = new Map<string,FreqDictEntry>(entries.map(x => [x.ES, x]));
   for(const c of cols)
-    dict.get(c[0]).Category = c[1];
+    entries[parseInt(c[0])].Category = c[1];
 }
 
-async function addGenders(entries:FreqDictEntry) {
-  const words = entries.filter(x => x.Category == "Noun").map(x => x.ES);  
+async function addGenders(entries:FreqDictEntry[]) {
+  const wordEntries = entries.filter(x => x.Category == "Noun");
+  const words = wordEntries.map(x => x.ES);  
   console.log(`-- add gender for ${words.length} words`)
   if (words.length == 0) return;
   
   const cols = await runPrompt("promptForGenders.txt", words);
 
-  const dict = new Map<string,FreqDictEntry>(entries.map(x => [x.ES, x]));
   for(const c of cols)
-    dict.get(c[0]).Gender = c[1];
+    wordEntries[parseInt(c[0])].Gender = c[1];
 }
 
-async function addPlurals(entries:FreqDictEntry) {
-  const words = entries.filter(x => x.Category == "Noun").map(x => x.ES);
+async function addPlurals(entries:FreqDictEntry[]) {
+  const wordEntries = entries.filter(x => x.Category == "Noun");
+  const words = wordEntries.map(x => x.ES);
   console.log(`-- add plurals for ${words.length} words`)
   if (words.length == 0) return;
   
   const cols = await runPrompt("promptForPlurals.txt", words);
 
-  const dict = new Map<string,FreqDictEntry>(entries.map(x => [x.ES, x]));
   for(const c of cols)
-    dict.get(c[0]).Plural = c[1];
+    wordEntries[parseInt(c[0])].Plural = c[1];
 }
 
-async function addConjugations(entries:FreqDictEntry) {
-  const words = entries.filter(x => x.Category == "Verb").map(x => x.ES);
+async function addConjugations(entries:FreqDictEntry[]) {
+  const wordEntries = entries.filter(x => x.Category == "Verb");
+  const words = wordEntries.map(x => x.ES);
   console.log(`-- add conjugations for ${words.length} words`)
   if (words.length == 0) return;
   
   const cols = await runPrompt("promptForConjugations.txt", words);
 
-  const dict = new Map<string,FreqDictEntry>(entries.map(x => [x.ES, x]));
   for(const c of cols)
-    dict.get(c[0]).Conjugation = c[1];
+    wordEntries[parseInt(c[0])].Conjugation = c[1];
 }
 
-async function addExamples(entries:FreqDictEntry) {
+async function addExamples(entries:FreqDictEntry[]) {
   const words = entries.map(x => x.ES);
   console.log(`-- add examples for ${words.length} words`)
   
   const cols = await runPrompt("promptForExamples.txt", words);
 
-  const dict = new Map<string,FreqDictEntry>(entries.map(x => [x.ES, x]));
   for(const c of cols) {
-    dict.get(c[0]).ESsample = c[1];
-    dict.get(c[0]).ENsample = c[2];
+    const i = parseInt(c[0]);
+    entries[i].ESsample = c[1];
+    entries[i].ENsample = c[2];
   }
 }
 

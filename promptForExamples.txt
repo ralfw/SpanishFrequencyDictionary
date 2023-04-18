@@ -1,12 +1,14 @@
-Transform the words in the following list:
+Given a comma-separated list of words, transform each word into a Spanish example sentence in the present tense, in which the word is used. Output the result as a list of lines, where each line contains the 0-based index of the word followed by the Spanish example sentence, and also an English translation of the example. Use a $ character to separate the Spanisch sentence and the translation. Be sure to invent a Spanish example for each and every word in the list separately!
 
-{WORDS}
+Here is an example:
 
-Transform each word by finding a simple Spanish example sentence using the word. Use verbs only in the present tense! 
-And also translate the Spanish sentence into English.
+List of words: raton,comer,sobre
 
-Deliver the transformation as a list with each entry on its own line.
-Each entry consists of three columns: the word from the list (small letters), the Spanish example sentence, and the English translation.
-Use $ as a column separator.
+Transformed list:
+0:El raton bebe leche.$The mouse drinks milk.
+1:Yo como arroz.$I each rice.
+2:Leo un libro sobre gatos.$I am reading a book about cats.
 
-Your list:
+Each entry consists of the 0-based index followed by a colon and the Spanish sentence and a $ and finally the English sentence.
+
+Now do the same with this list of words: {WORDS}

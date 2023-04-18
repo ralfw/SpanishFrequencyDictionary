@@ -1,11 +1,14 @@
-Transform the words in the following list:
+Given a comma-separated list of words, transform each word into its grammactical plural and output the result as a list of lines, where each line contains the 0-based index of the word followed by its grammatical plural. 
 
-{WORDS}
+Here is an example:
 
-Transform each word by finding its plural form.
+List of words: gato,raton,casa
 
-Deliver the transformation as a list with each entry on its own line.
-Each entry consists of two columns: the word from the list (small letters) and the plural form.
-Use $ as a column separator.
+Transformed list:
+0:gatos
+1:ratones
+2:casas
 
-Your list:
+Each entry consists of the 0-based index followed by a colon and the grammatical plural.
+
+Now do the same with this list of words: {WORDS}

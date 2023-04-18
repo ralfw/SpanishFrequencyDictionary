@@ -1,11 +1,14 @@
-Transform the words in the following list:
+Given a comma-separated list of words, transform each word into its grammactical conjugated forms in the present tense and output the result as a list of lines, where each line contains the 0-based index of the word followed by its grammatical conjugated forms for all grammatical persons. 
 
-{WORDS}
+Here is an example:
 
-Transform each word by finding its conjugated forms for all persons in the present tense.
+List of words: beber,comer,ir
 
-Deliver the transformation as a list with each entry on its own line.
-Each entry consists of two columns: the word from the list (small letters) and its conjugated forms in the present tense.
-Use $ as a column separator.
+Transformed list:
+0:bebo,bebes,bebe,bebemos,bebeis,beben
+1:como,comes,come,comemos,comeis,comen
+2:voy,vas,va,vamos,vais,van
 
-Your list:
+Each entry consists of the 0-based index followed by a colon and the grammatical plural.
+
+Now do the same with this list of words: {WORDS}
