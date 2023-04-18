@@ -41,10 +41,10 @@ function storeDict(filepath:string, entries:FreqDictEntry[]) {
 }
 
 
-async function runPrompt(promptFilename:string, words:string, delimiter:string="\t"): Promise<string[][]> {
-  const prompt = Deno.readTextFileSync(promptFilename).replace("{WORDS}", words);
+async function runPrompt(promptFilename:string, words:string[], delimiter:string="$"): Promise<string[][]> {
+  const prompt = Deno.readTextFileSync(promptFilename).replace("{WORDS}", words.join(","));
   
-  const completion = await askAsync(prompt, 0.1);
+  const completion = await askAsync(prompt, 0.25);
   console.log(completion)
   const result = completion.split("\n").map(x => x.split(delimiter));
   
@@ -80,7 +80,7 @@ async function addPlurals(entries:FreqDictEntry) {
   console.log(`-- add plurals for ${words.length} words`)
   if (words.length == 0) return;
   
-  const cols = await runPrompt("promptForPlurals.txt", words, ";");
+  const cols = await runPrompt("promptForPlurals.txt", words);
 
   const dict = new Map<string,FreqDictEntry>(entries.map(x => [x.ES, x]));
   for(const c of cols)

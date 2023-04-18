@@ -1,10 +1,12 @@
-For the following list of words, find simple example sentences in the present tense. Also translate the example sentences to English.
+Transform the words in the following list:
 
 {WORDS}
 
-Return the result as a list with each word and its example sentence and translated example on the same line.
-Separate the values with a TAB character.
+Transform each word by finding a simple Spanish example sentence using the word. Use verbs only in the present tense! 
+And also translate the Spanish sentence into English.
 
-Do not add a header to the list.
+Deliver the transformation as a list with each entry on its own line.
+Each entry consists of three columns: the word from the list (small letters), the Spanish example sentence, and the English translation.
+Use $ as a column separator.
 
-Get the list with the examples sentences and their translations:
+Your list:
