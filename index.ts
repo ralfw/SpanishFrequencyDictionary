@@ -90,16 +90,14 @@ async function complete(sourceFilepath: string, destFilepath: string) {
   console.log(entries.length + " entries stored in " + destFilepath);
 }
 
-await complete("esfreqdict/1-100.csv", "completed/sample.csv");
-Deno.exit();
+//await complete("esfreqdict/101-200.csv", "completed/sample.csv");
+//Deno.exit();
 
 const path = "esfreqdict";
 for (const file of walkSync(path)) {
   if (file.isFile) {
     const destinationFilepath = file.path.replace(path, "completed");
-    console.log(`${file.path} -> ${destinationFilepath}`);
+    console.log(`************* ${file.path} -> ${destinationFilepath} **************`);
     await complete(file.path, destinationFilepath);
-
-    break;
   }
 }
