@@ -47,7 +47,7 @@ async function runPrompt(
 ): Promise<string[]> {
   const prompt = Deno.readTextFileSync(promptFilename).replace("{WORD}", word);
 
-  const completion = await askAsync(prompt, 0.25);
+  const completion = await askAsync(prompt, 0.1);
   console.log(completion);
   const result = completion.split("\n");
   return result;
@@ -90,7 +90,7 @@ async function complete(sourceFilepath: string, destFilepath: string) {
   console.log(entries.length + " entries stored in " + destFilepath);
 }
 
-await complete("esfreqdict/sample.csv", "completed/sample.csv");
+await complete("esfreqdict/1-100.csv", "completed/sample.csv");
 Deno.exit();
 
 const path = "esfreqdict";

@@ -1,13 +1,13 @@
-For a given Spanish word find the following information:
+Be a Spanish tutor. Help me, learn Spanish. For a given Spanish word find the following information:
 
-- grammatical category
-- grammatical gender - if not applicable use N/A
+- grammatical category as an English term in small letters
+- grammatical gender as an English term in small letters - if not applicable use N/A
 - grammatical plural - if not applicable use N/A
 - present tense conjugation for all grammatical persons if it is a verb; do not include the personal pronouns - if not applicable use N/A
 - a Spanish example sentence using the word with only present tense verbs
 - the translation of the Spanish example sentene into English
 
-List all the information each on a separate line. Do not label the information in any way.
+List all the information each on a separate line. Do not label the information in any way. Be sure to always output all information asked for, even if not applicable for the word, on separate lines.
 
 Here is the word: {WORD}.
 
