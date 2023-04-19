@@ -1,25 +1,23 @@
 import { walkSync } from "https://deno.land/std/fs/mod.ts";
 
-import { askAsync } from "./modules/gpt.ts"
-
+import { askAsync } from "./modules/gpt.ts";
 
 interface FreqDictEntry {
-  ES:string
-  EN:string
-  Category:string
-  Gender:string
-  Plural:string
-  Conjugation:string
-  ESsample:string
-  ENsample:string
+  ES: string;
+  EN: string;
+  Category: string;
+  Gender: string;
+  Plural: string;
+  Conjugation: string;
+  ESsample: string;
+  ENsample: string;
 }
 
-
-function loadDict(filepath:string): FreqDictEntry {
+function loadDict(filepath: string): FreqDictEntry[] {
   const text = Deno.readTextFileSync(filepath);
   const lines = text.split("\n");
-  const columns = lines.map(x => x.split("\t"));
-  const entries = columns.map(x => {
+  const columns = lines.map((x) => x.split("\t"));
+  const entries = columns.map((x) => {
     return {
       ES: x[0],
       EN: x[1],
@@ -28,131 +26,78 @@ function loadDict(filepath:string): FreqDictEntry {
       Plural: x.length > 4 ? x[4] : "",
       Conjugation: x.length > 5 ? x[5] : "",
       ESsample: x.length > 6 ? x[6] : "",
-      ENsample: x.length > 7 ? x[7] : ""
+      ENsample: x.length > 7 ? x[7] : "",
     };
-  })
+  });
   return entries;
 }
 
-function storeDict(filepath:string, entries:FreqDictEntry[]) {
-  const lines = entries.map(x => `${x.ES}\t${x.EN}\t${x.Category}\t${x.Gender}\t${x.Plural}\t${x.Conjugation}\t${x.ESsample}\t${x.ENsample}`);
+function storeDict(filepath: string, entries: FreqDictEntry[]) {
+  const lines = entries.map((x) =>
+    `${x.ES}\t${x.EN}\t${x.Category}\t${x.Gender}\t${x.Plural}\t${x.Conjugation}\t${x.ESsample}\t${x.ENsample}`
+  );
   const text = lines.join("\n");
   Deno.writeTextFileSync(filepath, text);
 }
 
+async function runPrompt(
+  promptFilename: string,
+  word: string,
+  delimiter: string = "$",
+): Promise<string[]> {
+  const prompt = Deno.readTextFileSync(promptFilename).replace("{WORD}", word);
 
-async function runPrompt(promptFilename:string, words:string[], delimiter:string="$"): Promise<string[][]> {
-  const prompt = Deno.readTextFileSync(promptFilename).replace("{WORDS}", words.join(","));
-  
   const completion = await askAsync(prompt, 0.25);
-  console.log(completion)
-  const result = completion.split("\n").map(x => {
-    const indexedResult = x.split(":")
-    const result = indexedResult[1].split("$")
-    return [indexedResult[0]].concat(result);
-  });
-
-  if (words.length != result.length) {
-    throw new Error(`*** ${words.length} expected, but ${result.length} results received!\n${prompt}\n---\n${result}\n`);
-  }
+  console.log(completion);
+  const result = completion.split("\n");
   return result;
 }
 
+async function addAll(entry: FreqDictEntry) {
+  console.log(`-- add all for ${entry.ES}`);
 
-async function addCategories(entries:FreqDictEntry[]) {
-  const words = entries.map(x => x.ES);
-  console.log(`-- add categories for ${words.length} words`)
-  
-  const cols = await runPrompt("promptForCategories.txt", words);
+  const cols = await runPrompt("promptForAll.txt", entry.ES);
 
-  for(const c of cols)
-    entries[parseInt(c[0])].Category = c[1];
+  entry.Category = cleanup(cols[0]);
+  entry.Gender = cleanup(cols[1]);
+  entry.Plural = cleanup(cols[2]);
+  entry.Conjugation = cleanup(cols[3]);
+  entry.ESsample = cleanup(cols[4]);
+  entry.ENsample = cleanup(cols[5]);
+  console.log(entry);
 }
 
-async function addGenders(entries:FreqDictEntry[]) {
-  const wordEntries = entries.filter(x => x.Category == "Noun");
-  const words = wordEntries.map(x => x.ES);  
-  console.log(`-- add gender for ${words.length} words`)
-  if (words.length == 0) return;
-  
-  const cols = await runPrompt("promptForGenders.txt", words);
-
-  for(const c of cols)
-    wordEntries[parseInt(c[0])].Gender = c[1];
+function cleanup(x:string):string {
+  return replaceNA(removeLabel(x));
+}
+function replaceNA(x:string):string {
+  return x=="N/A" ? "" : x;
+}
+function removeLabel(x:string):string {
+  const parts = x.split(":");
+  if (parts.length==1) return parts[0];
+  return parts[1].trim();
 }
 
-async function addPlurals(entries:FreqDictEntry[]) {
-  const wordEntries = entries.filter(x => x.Category == "Noun");
-  const words = wordEntries.map(x => x.ES);
-  console.log(`-- add plurals for ${words.length} words`)
-  if (words.length == 0) return;
-  
-  const cols = await runPrompt("promptForPlurals.txt", words);
-
-  for(const c of cols)
-    wordEntries[parseInt(c[0])].Plural = c[1];
-}
-
-async function addConjugations(entries:FreqDictEntry[]) {
-  const wordEntries = entries.filter(x => x.Category == "Verb");
-  const words = wordEntries.map(x => x.ES);
-  console.log(`-- add conjugations for ${words.length} words`)
-  if (words.length == 0) return;
-  
-  const cols = await runPrompt("promptForConjugations.txt", words);
-
-  for(const c of cols)
-    wordEntries[parseInt(c[0])].Conjugation = c[1];
-}
-
-async function addExamples(entries:FreqDictEntry[]) {
-  const words = entries.map(x => x.ES);
-  console.log(`-- add examples for ${words.length} words`)
-  
-  const cols = await runPrompt("promptForExamples.txt", words);
-
-  for(const c of cols) {
-    const i = parseInt(c[0]);
-    entries[i].ESsample = c[1];
-    entries[i].ENsample = c[2];
-  }
-}
-
-
-async function complete(sourceFilepath:string, destFilepath:string) {
+async function complete(sourceFilepath: string, destFilepath: string) {
   const entries = loadDict(sourceFilepath);
-  let completed = [];
 
-  const chunks = [];
-  const chunkSize = 20;
-  for (let i = 0; i < entries.length; i += chunkSize) {
-    console.log("=== chunk starting at " + i)
-    
-    const chunk = entries.slice(i, i + chunkSize);
-
-    await addCategories(chunk);
-    await addGenders(chunk);
-    await addPlurals(chunk);
-    await addConjugations(chunk);
-    await addExamples(chunk);
-    
-    completed = completed.concat(chunk)
+  for (const e of entries) {
+    await addAll(e);
   }
 
-  storeDict(destFilepath, completed);
-  console.log(completed.length + " entries stored in " + destFilepath);
+  storeDict(destFilepath, entries);
+  console.log(entries.length + " entries stored in " + destFilepath);
 }
 
-
-await complete("esfreqdict/1-100.csv", "completed/1-100.csv")
+await complete("esfreqdict/sample.csv", "completed/sample.csv");
 Deno.exit();
-
 
 const path = "esfreqdict";
 for (const file of walkSync(path)) {
   if (file.isFile) {
     const destinationFilepath = file.path.replace(path, "completed");
-    console.log(`${file.path} -> ${destinationFilepath}`)
+    console.log(`${file.path} -> ${destinationFilepath}`);
     await complete(file.path, destinationFilepath);
 
     break;
