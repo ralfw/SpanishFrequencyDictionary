@@ -1,3 +1,5 @@
+// deno run --allow-all notion2repetico.ts notion/raw.csv
+
 const csvFilename = Deno.args[0];
 
 const lines = Deno.readTextFileSync(csvFilename).split("\n");
@@ -17,20 +19,23 @@ const COL_PLURAL = 9
 const flashcards = [];
 for(const row of table) {
   // EN / front
-  const q = row[COL_TRANSLATION] + "\n\n" + row[COL_TRANSLATEDEXAMPLE];
+  const q = `<p>${row[COL_TRANSLATION]}</p><p>${row[COL_TRANSLATEDEXAMPLE]}</p>`;
 
   // ES / back
-  let a = row[COL_WORD];
+  let a = "";
   switch(row[COL_CATEGORY]) {
     case "noun":
-      a = (row[COL_GENDER] == "masculine" ? "el " : "la ") + a;
-      a += ", pl. " + row[COL_PLURAL];
+      const article = row[COL_GENDER] == "masculine" ? "el " : "la ";
+      a = `<p>${article} ${row[COL_WORD]}, pl. ${row[COL_PLURAL]}</p>`
       break;
     case "verb":
-      a += "\n\n" + row[COL_CONJUGATION];
+      a = `<p>${row[COL_WORD]}</p><p>${row[COL_CONJUGATION]}</p>`
+      break;
+    default:
+      a = `${row[COL_WORD]}`;
       break;
   }
-  a += "\n\n" + row[COL_EXAMPLE]
+  a = a + `<p>${row[COL_EXAMPLE]}</p>`;
   
   flashcards.push({
     question: q,
