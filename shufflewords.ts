@@ -1,12 +1,7 @@
 // deno run shufflewords.ts
 
 const words = `
-Lucia, Pablo, Maria, Alejandro,
-ir,mucho,querer,primero,cosa,alto,ciudad,calle, 
-el,la,y,un, una,ser,tener,hombre,casa,mujer,hijo,problema,
-padre,idea,amigo,madre,puerta,mesa,animal,médico,carta,plan,
-hija,pero,ver,él,yo,grande,ella,bueno,niño,nosotros,blanco,
-libro,ello,rojo,tú,ellos, ellas,vosotros
+idea, la, mí, animal, ser, tu, poco, ciudad, alto, estar, Pablo, problema, mi, ver, familiar, pero, cosa, ella, esto, libro, año, médico, tener, poder, yo, hija, hora, plan, primero, mucho, tú, nosotros, como, persona, ir, Lucia, tanto, quién, vosotros, rojo, un, su, día, si, madre, querer, ellas, nuestro, niño, hijo, trabajo, amigo, ellos, ello, blanco, carta, Alejandro, Maria, una, negro, decir, padre, mujer, bueno, mundo, dar, el, hombre, amar, calle, casa, y, grande, mesa, puerta, él, bajo
 `
 
 function shuffleWords(inputString: string): string {
@@ -26,7 +21,7 @@ function shuffleWords(inputString: string): string {
     chunked.push(words.slice(i, i + CHUNK_SIZE));
   }
   
-  return chunked.map(x => x.join(",")).join(",\n");
+  return chunked.map(x => x.join(", ")).join(", ");
 }
 
 console.log(shuffleWords(words));
