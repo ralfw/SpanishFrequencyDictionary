@@ -40,7 +40,7 @@ for(const row of table) {
   flashcards.push({
     question: q,
     answer: a,
-    categories: [row[COL_CATEGORY]]
+    categories: [row[COL_CATEGORY], "SDbD"]
   });
 }
 

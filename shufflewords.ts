@@ -1,7 +1,7 @@
 // deno run shufflewords.ts
 
 const words = `
-idea, la, mí, animal, ser, tu, poco, ciudad, alto, estar, Pablo, problema, mi, ver, familiar, pero, cosa, ella, esto, libro, año, médico, tener, poder, yo, hija, hora, plan, primero, mucho, tú, nosotros, como, persona, ir, Lucia, tanto, quién, vosotros, rojo, un, su, día, si, madre, querer, ellas, nuestro, niño, hijo, trabajo, amigo, ellos, ello, blanco, carta, Alejandro, Maria, una, negro, decir, padre, mujer, bueno, mundo, dar, el, hombre, amar, calle, casa, y, grande, mesa, puerta, él, bajo
+vida, calle, pagar, casa, puerta, como, cosa, amigo, quién, volar, tanto, hablar, tener, cual, cuenta, estar, viejo, la, Pablo, mujer, ver, y, Maria, cabeza, hombre, si, ejemplo, Lucia, correr, libro, trabajo, qué, blanco, año, hijo, grande, mi, nuevo, mí, animal, madre, nosotros, cuándo, poder, mano, árbol, ir, cierto, su, carta, pero, un, el, quien, saber, persona, gato, tú, negro, mundo, él, rojo, ciudad, vosotros, día, comer, mucho, problema, beber, esto, padre, ello, plan, venir, ellas, dónde, familiar, ojo, hija, amar, médico, ellos, niño, último, solo, encontrar, mesa, hacer, poco, ella, hora, alto, primero, ser, mejor, bajo, tu, idea, perro, pájaro, yo, dar, una, querer, decir, llevar, Alejandro, llegar, nuestro, bueno
 `
 
 function shuffleWords(inputString: string): string {
