@@ -1,78 +1,86 @@
 // deno run shufflewords.ts
 
 const lessonWords = [
+//// ---- evergree
   // Names
-  `Pablo, Lucia, Pedro, Claudia, Daniel, Carmen, Maria`,
-  // Evergreen verbs
-  `comer, beber, hacer, poder, hacer, dar, pagar, amar,
-  venir, ir, querer, tener, ser, estar, saber`,
-  // Evergreen nouns
-  `problema, hombre, mujer, niño, niña, casa, perro, gato, trabajo,
-  vida, calle, amigo, rojo, alto, viejo, poco, mesa`,
-  // Evergreen adjectives
-  `grande, azul, blanco, pequeño, nuevo`,
-  // Evergreen other
-  `yo, él, ella, nosotros, ellos, mí, su, nos, vos, sus,
-  mucho, dónde, quíen, cuando, como, qué`,
-  // Lesson words
-  // 2
-  ``,
-  // 3
-  `ir
-primero
-cosa
-ciudad
-`,
-  // 4
-  `
-nuestro
-esto
-mundo
-negro
-bajo
-familiar
-`,
-  // 5
-  `
-decir
-poco
-tanto
-persona
-`,
-  // 6
-  `
-año
-día
-hora`,
-  // 7 
-  `correr
-árbol
-perro
-volar
-gato
-pájaro`,
-  // 8
-  `
-`,
-  // 9
-  `llegar
-mano
-ojo
-viejo
-cabeza`,
-  // 10
-  `
-mejor
-cierto
-ejemplo
-cuenta
-pagar`,
-  // 11
-  `llevar
-encontrar
-último
-solo`,
+  `Pablo, Lucia, Pedro, Claudia, Carmen, Maria`,
+
+// ----- lessons
+
+  `casi
+morir
+incluso
+aceptar
+comprender
+estado
+posibilidad
+ley`,
+
+  `formar
+suponer
+tocar
+amor
+muerte
+jamás
+debajo
+pan`,
+
+  `realizar
+preguntar
+aspecto
+servicio
+completamente`,
+
+  `convertir
+explicar
+diferencia
+efecto
+objeto`,
+
+  `clase
+ayudar
+cumplir
+sistema
+profundamente`,
+
+  `reconocer
+utilizar
+guerra
+cuestión
+cantidad`,
+
+  `abrir
+estudiar
+dirigir
+ofrecer
+acción`,
+
+  `levantar
+repetir
+duda
+viaje
+respeto`,
+
+  `usar
+olvidar
+pie
+brazo
+boca`,
+
+  `suelo
+construir
+cielo
+fuerte
+ventana`,
+
+  `época
+escuchar
+descubrir
+sociedad
+libertad`,
 ];
+
+// deno run shufflewords.ts
 
 function shuffleWords(lessonWords: string[]): string {
   // Split the input string into an array of words
